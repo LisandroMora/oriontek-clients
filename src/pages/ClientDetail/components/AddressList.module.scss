@@ -1,0 +1,83 @@
+@use '@/styles/variables' as v;
+@use '@/styles/mixins' as m;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: v.$spacing-md;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  gap: v.$spacing-md;
+  grid-template-columns: 1fr;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  @include m.desktop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: v.$spacing-sm;
+  padding: v.$spacing-md;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.cardContent {
+  display: flex;
+  align-items: flex-start;
+  gap: v.$spacing-sm;
+  flex: 1;
+  min-width: 0;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: rgba(0, 0, 0, 0.4);
+  margin-top: 2px;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+}
+
+.street {
+  margin: 0 0 v.$spacing-xs;
+  font-weight: 500;
+  @include m.truncate;
+}
+
+.location {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+  @include m.truncate;
+}
+
+.country {
+  margin: v.$spacing-xs 0 0;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.actions {
+  display: flex;
+  gap: v.$spacing-xs;
+  flex-shrink: 0;
+}
