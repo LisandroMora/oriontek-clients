@@ -6,10 +6,15 @@ export function Layout() {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar
-        position="static"
+        position="sticky"
         color="inherit"
         elevation={0}
-        sx={{ borderBottom: 1, borderColor: 'divider' }}
+        sx={{
+          borderBottom: '1px solid',
+          borderColor: 'rgba(0, 0, 0, 0.08)',
+          bgcolor: 'rgba(255, 255, 255, 0.85)',
+          backdropFilter: 'blur(8px)',
+        }}
       >
         <Container maxWidth="lg">
           <Toolbar disableGutters sx={{ minHeight: 64 }}>

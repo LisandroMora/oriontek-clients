@@ -34,16 +34,32 @@ interface InfoItemProps {
 function InfoItem({ icon, label, value }: InfoItemProps) {
   return (
     <Stack direction="row" spacing={1.5} sx={{ alignItems: 'flex-start' }}>
-      <Box sx={{ color: 'text.secondary', mt: 0.5 }}>{icon}</Box>
+      <Box
+        sx={{
+          color: 'primary.main',
+          mt: 0.5,
+          display: 'flex',
+        }}
+      >
+        {icon}
+      </Box>
       <Box>
         <Typography
           variant="caption"
           color="text.secondary"
-          sx={{ textTransform: 'uppercase', fontWeight: 500 }}
+          sx={{
+            textTransform: 'uppercase',
+            fontWeight: 600,
+            letterSpacing: '0.04em',
+            fontSize: '0.7rem',
+            display: 'block',
+          }}
         >
           {label}
         </Typography>
-        <Typography variant="body2">{value}</Typography>
+        <Typography variant="body2" sx={{ color: '#0f172a', fontWeight: 500, mt: 0.25 }}>
+          {value}
+        </Typography>
       </Box>
     </Stack>
   );
@@ -102,9 +118,10 @@ export default function ClientDetailPage() {
             sx={{
               width: 56,
               height: 56,
-              bgcolor: 'primary.light',
+              bgcolor: 'primary.main',
               fontSize: '1.25rem',
               fontWeight: 600,
+              boxShadow: '0 0 0 4px rgba(25, 118, 210, 0.1)',
             }}
           >
             {client.firstName[0]}

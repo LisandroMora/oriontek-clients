@@ -90,7 +90,9 @@ export function AddressList({ clientId, addresses }: AddressListProps) {
   return (
     <Box>
       <div className={styles.header}>
-        <h2 className={styles.title}>Direcciones ({addresses.length})</h2>
+        <h2 className={styles.title}>
+          Direcciones <span className={styles.titleCount}>({addresses.length})</span>
+        </h2>
         <Button
           variant="contained"
           size="small"
@@ -115,7 +117,10 @@ export function AddressList({ clientId, addresses }: AddressListProps) {
       ) : (
         <ul className={styles.grid}>
           {sorted.map((address) => (
-            <li key={address.id} className={styles.card}>
+            <li
+              key={address.id}
+              className={`${styles.card} ${address.isPrimary ? styles.cardPrimary : ''}`}
+            >
               <div className={styles.cardContent}>
                 <LocationOnOutlined className={styles.icon} />
                 <div className={styles.text}>

@@ -14,6 +14,7 @@ import {
 import { memo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
+
 import type { Client } from '@/types';
 import { formatDate } from '@/utils/helpers';
 
@@ -29,26 +30,31 @@ export const ClientsTable = memo(function ClientsTable({
   onDelete,
 }: ClientsTableProps) {
   return (
-    <TableContainer component={Paper} variant="outlined">
+    <TableContainer
+      component={Paper}
+      variant="outlined"
+      sx={{ borderColor: 'rgba(0, 0, 0, 0.08)' }}
+    >
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Cliente</TableCell>
-            <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-              Contacto
-            </TableCell>
-            <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
-              Direcciones
-            </TableCell>
-            <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
-              Creado
-            </TableCell>
+            <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Contacto</TableCell>
+            <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Direcciones</TableCell>
+            <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Creado</TableCell>
             <TableCell align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {clients.map((client) => (
-            <TableRow key={client.id} hover>
+            <TableRow
+              key={client.id}
+              hover
+              sx={{
+                '&:last-child td': { border: 0 },
+                transition: 'background-color 150ms',
+              }}
+            >
               <TableCell>
                 <RouterLink
                   to={`/clients/${client.id}`}
@@ -63,9 +69,9 @@ export const ClientsTable = memo(function ClientsTable({
                 <Typography
                   variant="caption"
                   color="text.secondary"
-                  sx={{ display: 'block' }}
+                  sx={{ display: 'block', mt: 0.25 }}
                 >
-                  Ced: {client.documentId}
+                  {client.documentId}
                 </Typography>
               </TableCell>
               <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
@@ -80,6 +86,10 @@ export const ClientsTable = memo(function ClientsTable({
                   label={client.addresses.length}
                   size="small"
                   variant="outlined"
+                  sx={{
+                    fontWeight: 500,
+                    borderColor: 'rgba(0, 0, 0, 0.12)',
+                  }}
                 />
               </TableCell>
               <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
@@ -87,7 +97,7 @@ export const ClientsTable = memo(function ClientsTable({
                   {formatDate(client.createdAt)}
                 </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
                 <IconButton
                   size="small"
                   onClick={() => onEdit(client)}

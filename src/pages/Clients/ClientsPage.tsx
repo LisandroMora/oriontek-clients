@@ -1,4 +1,4 @@
-import { AddOutlined, PeopleOutlined, SearchOutlined } from '@mui/icons-material';
+import { AddOutlined, CloseOutlined, PeopleOutlined, SearchOutlined } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  IconButton,
   InputAdornment,
   Pagination,
   Snackbar,
@@ -171,9 +172,40 @@ export default function ClientsPage() {
           input: {
             startAdornment: (
               <InputAdornment position="start">
-                <SearchOutlined fontSize="small" />
+                <SearchOutlined sx={{ color: 'text.secondary', fontSize: 20 }} />
               </InputAdornment>
             ),
+            endAdornment: search ? (
+              <InputAdornment position="end">
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setSearch('');
+                    setPage(1);
+                  }}
+                  aria-label="Limpiar búsqueda"
+                  sx={{ mr: -0.5 }}
+                >
+                  <CloseOutlined sx={{ fontSize: 18 }} />
+                </IconButton>
+              </InputAdornment>
+            ) : null,
+          },
+        }}
+        sx={{
+          maxWidth: 480,
+          alignSelf: 'flex-end',
+          '& .MuiOutlinedInput-root': {
+            bgcolor: '#fff',
+            transition: 'box-shadow 150ms',
+            '&:hover': {
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(0, 0, 0, 0.2)',
+              },
+            },
+            '&.Mui-focused': {
+              boxShadow: '0 0 0 3px rgba(25, 118, 210, 0.12)',
+            },
           },
         }}
       />
