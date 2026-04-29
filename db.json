@@ -1,0 +1,69 @@
+{
+  "clients": [
+    {
+      "id": "c-001",
+      "firstName": "María",
+      "lastName": "Rodríguez",
+      "email": "maria.rodriguez@example.com",
+      "phone": "+1 809-555-0142",
+      "documentId": "00112345678",
+      "addresses": [
+        {
+          "id": "a-001",
+          "street": "Av. Winston Churchill 1099",
+          "city": "Santo Domingo",
+          "state": "Distrito Nacional",
+          "country": "República Dominicana",
+          "zipCode": "10148",
+          "isPrimary": true,
+          "createdAt": "2025-01-15T10:30:00.000Z"
+        },
+        {
+          "id": "a-002",
+          "street": "Calle El Sol 45",
+          "city": "Santiago",
+          "state": "Santiago",
+          "country": "República Dominicana",
+          "zipCode": "51000",
+          "isPrimary": false,
+          "createdAt": "2025-02-20T14:15:00.000Z"
+        }
+      ],
+      "createdAt": "2025-01-15T10:30:00.000Z",
+      "updatedAt": "2025-02-20T14:15:00.000Z"
+    },
+    {
+      "id": "c-002",
+      "firstName": "Carlos",
+      "lastName": "Pérez",
+      "email": "carlos.perez@example.com",
+      "phone": "+1 829-555-7891",
+      "documentId": "40256789012",
+      "addresses": [
+        {
+          "id": "a-003",
+          "street": "Calle Duarte 23",
+          "city": "La Romana",
+          "state": "La Romana",
+          "country": "República Dominicana",
+          "zipCode": "22000",
+          "isPrimary": true,
+          "createdAt": "2025-03-10T09:00:00.000Z"
+        }
+      ],
+      "createdAt": "2025-03-10T09:00:00.000Z",
+      "updatedAt": "2025-03-10T09:00:00.000Z"
+    },
+    {
+      "id": "c-003",
+      "firstName": "Ana",
+      "lastName": "Martínez",
+      "email": "ana.martinez@example.com",
+      "phone": "+1 849-555-3344",
+      "documentId": "00298765432",
+      "addresses": [],
+      "createdAt": "2025-04-01T11:20:00.000Z",
+      "updatedAt": "2025-04-01T11:20:00.000Z"
+    }
+  ]
+}

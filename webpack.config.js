@@ -88,6 +88,14 @@ module.exports = (_, argv) => {
       hot: true,
       open: true,
       historyApiFallback: true,
+      proxy: [
+        {
+          context: ['/api'],
+          target: 'http://localhost:3001',
+          pathRewrite: { '^/api': '' },
+          changeOrigin: true,
+        },
+      ],
     },
   };
 };
