@@ -57,25 +57,6 @@ npm run type-check   # verifica tipos sin compilar
 npm run lint         # corre ESLint
 ```
 
-## Estructura
-
-src/
-├── api/                 # Cliente Axios con interceptor de errores
-├── components/          # Componentes compartidos (Layout, EmptyState, etc.)
-├── hooks/               # Hooks reutilizables
-├── pages/
-│   ├── Clients/         # Listado con búsqueda, paginación y CRUD
-│   ├── ClientDetail/    # Detalle del cliente con CRUD de direcciones
-│   └── NotFound/
-├── routes/              # Configuración de rutas con lazy loading
-├── services/            # Capa que abstrae las llamadas a la API
-├── store/               # Redux: slice, selectors, hooks tipados
-├── styles/              # Variables y mixins SCSS globales
-├── theme/               # Theme custom de MUI
-├── types/               # Tipos del dominio (Client, Address)
-└── utils/               # Validators con Zod, helpers
-
-
 ## Notas
 
 - El dataset inicial son 3 clientes en `db.json`. Uno con 2 direcciones, uno con 1, y uno sin direcciones — para cubrir los distintos estados de la UI.
