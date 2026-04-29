@@ -15,8 +15,6 @@ interface ConfirmDialogProps {
   cancelLabel?: string;
   onConfirm: () => void;
   onCancel: () => void;
-  variant?: 'error' | 'primary';
-  loading?: boolean;
 }
 
 export function ConfirmDialog({
@@ -27,32 +25,18 @@ export function ConfirmDialog({
   cancelLabel = 'Cancelar',
   onConfirm,
   onCancel,
-  variant = 'error',
-  loading = false,
 }: ConfirmDialogProps) {
   return (
-    <Dialog
-      open={open}
-      onClose={onCancel}
-      aria-labelledby="confirm-dialog-title"
-      aria-describedby="confirm-dialog-description"
-      maxWidth="xs"
-      fullWidth
-    >
-      <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
+    <Dialog open={open} onClose={onCancel} maxWidth="xs" fullWidth>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="confirm-dialog-description">{message}</DialogContentText>
+        <DialogContentText>{message}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancel} color="inherit" disabled={loading}>
+        <Button onClick={onCancel} color="inherit">
           {cancelLabel}
         </Button>
-        <Button
-          onClick={onConfirm}
-          color={variant === 'error' ? 'error' : 'primary'}
-          variant="contained"
-          disabled={loading}
-        >
+        <Button onClick={onConfirm} color="error" variant="contained">
           {confirmLabel}
         </Button>
       </DialogActions>

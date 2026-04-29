@@ -21,14 +21,6 @@ export interface Client {
   updatedAt: string;
 }
 
-export type ClientFormData = Omit<
-  Client,
-  'id' | 'addresses' | 'createdAt' | 'updatedAt'
->;
+export type ClientFormData = Omit<Client, 'id' | 'addresses' | 'createdAt' | 'updatedAt'>;
 
 export type AddressFormData = Omit<Address, 'id' | 'createdAt'>;
-
-/**
- * Estado de las llamadas async — patrón estándar para tracking de loading/errors.
- */
-export type AsyncStatus = 'idle' | 'loading' | 'succeeded' | 'failed';

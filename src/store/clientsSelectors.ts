@@ -2,16 +2,12 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import type { RootState } from './store';
 
-import type { Client } from '@/types';
+export const selectClients = (state: RootState) => state.clients.items;
+export const selectLoading = (state: RootState) => state.clients.loading;
+export const selectError = (state: RootState) => state.clients.error;
 
-export const selectClients = (state: RootState): Client[] => state.clients.items;
-export const selectClientsStatus = (state: RootState) => state.clients.status;
-export const selectClientsError = (state: RootState) => state.clients.error;
-
-export const selectClientById =
-  (id: string) =>
-  (state: RootState): Client | undefined =>
-    state.clients.items.find((c: Client) => c.id === id);
+export const selectClientById = (id: string) => (state: RootState) =>
+  state.clients.items.find((c) => c.id === id);
 
 export const makeSelectFilteredClients = () =>
   createSelector(
@@ -20,7 +16,7 @@ export const makeSelectFilteredClients = () =>
       if (!search.trim()) return clients;
       const q = search.toLowerCase();
       return clients.filter(
-        (c: Client) =>
+        (c) =>
           c.firstName.toLowerCase().includes(q) ||
           c.lastName.toLowerCase().includes(q) ||
           c.email.toLowerCase().includes(q) ||
@@ -29,7 +25,4 @@ export const makeSelectFilteredClients = () =>
     },
   );
 
-export const selectClientsCount = createSelector(
-  [selectClients],
-  (clients) => clients.length,
-);
+export const selectClientsCount = createSelector([selectClients], (clients) => clients.length);

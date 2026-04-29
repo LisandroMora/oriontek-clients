@@ -2,125 +2,94 @@ import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/tool
 
 import type { ApiError } from '@/api/apiClient';
 import { clientsService } from '@/services/clientsService';
-import type { AddressFormData, AsyncStatus, Client, ClientFormData } from '@/types';
+import type { AddressFormData, Client, ClientFormData } from '@/types';
 
 interface ClientsState {
   items: Client[];
-  status: AsyncStatus;
+  loading: boolean;
   error: string | null;
-  mutationStatus: AsyncStatus;
 }
 
 const initialState: ClientsState = {
   items: [],
-  status: 'idle',
+  loading: false,
   error: null,
-  mutationStatus: 'idle',
 };
 
-interface UpdateClientArg {
-  id: string;
-  data: ClientFormData;
-}
+export const fetchClients = createAsyncThunk('clients/fetchAll', async (_, { rejectWithValue }) => {
+  try {
+    return await clientsService.getAll();
+  } catch (err) {
+    return rejectWithValue((err as ApiError).message);
+  }
+});
 
-interface AddAddressArg {
-  clientId: string;
-  data: AddressFormData;
-}
-
-interface UpdateAddressArg {
-  clientId: string;
-  addressId: string;
-  data: AddressFormData;
-}
-
-interface DeleteAddressArg {
-  clientId: string;
-  addressId: string;
-}
-
-
-export const fetchClients = createAsyncThunk<Client[], void, { rejectValue: string }>(
-  'clients/fetchAll',
-  async (_, { rejectWithValue }) => {
-    try {
-      return await clientsService.getAll();
-    } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.message);
-    }
-  },
-);
-
-export const createClient = createAsyncThunk<Client, ClientFormData, { rejectValue: string }>(
+export const createClient = createAsyncThunk(
   'clients/create',
-  async (formData, { rejectWithValue }) => {
+  async (data: ClientFormData, { rejectWithValue }) => {
     try {
-      return await clientsService.create(formData);
+      return await clientsService.create(data);
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.message);
+      return rejectWithValue((err as ApiError).message);
     }
   },
 );
 
-export const updateClient = createAsyncThunk<Client, UpdateClientArg, { rejectValue: string }>(
+export const updateClient = createAsyncThunk(
   'clients/update',
-  async ({ id, data }, { rejectWithValue }) => {
+  async (args: { id: string; data: ClientFormData }, { rejectWithValue }) => {
     try {
-      return await clientsService.update(id, data);
+      return await clientsService.update(args.id, args.data);
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.message);
+      return rejectWithValue((err as ApiError).message);
     }
   },
 );
 
-export const deleteClient = createAsyncThunk<string, string, { rejectValue: string }>(
+export const deleteClient = createAsyncThunk(
   'clients/delete',
-  async (id, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       await clientsService.delete(id);
       return id;
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.message);
+      return rejectWithValue((err as ApiError).message);
     }
   },
 );
 
-export const addAddress = createAsyncThunk<Client, AddAddressArg, { rejectValue: string }>(
+export const addAddress = createAsyncThunk(
   'clients/addAddress',
-  async ({ clientId, data }, { rejectWithValue }) => {
+  async (args: { clientId: string; data: AddressFormData }, { rejectWithValue }) => {
     try {
-      return await clientsService.addAddress(clientId, data);
+      return await clientsService.addAddress(args.clientId, args.data);
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.message);
+      return rejectWithValue((err as ApiError).message);
     }
   },
 );
 
-export const updateAddress = createAsyncThunk<Client, UpdateAddressArg, { rejectValue: string }>(
+export const updateAddress = createAsyncThunk(
   'clients/updateAddress',
-  async ({ clientId, addressId, data }, { rejectWithValue }) => {
+  async (
+    args: { clientId: string; addressId: string; data: AddressFormData },
+    { rejectWithValue },
+  ) => {
     try {
-      return await clientsService.updateAddress(clientId, addressId, data);
+      return await clientsService.updateAddress(args.clientId, args.addressId, args.data);
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.message);
+      return rejectWithValue((err as ApiError).message);
     }
   },
 );
 
-export const deleteAddress = createAsyncThunk<Client, DeleteAddressArg, { rejectValue: string }>(
+export const deleteAddress = createAsyncThunk(
   'clients/deleteAddress',
-  async ({ clientId, addressId }, { rejectWithValue }) => {
+  async (args: { clientId: string; addressId: string }, { rejectWithValue }) => {
     try {
-      return await clientsService.deleteAddress(clientId, addressId);
+      return await clientsService.deleteAddress(args.clientId, args.addressId);
     } catch (err) {
-      const error = err as ApiError;
-      return rejectWithValue(error.message);
+      return rejectWithValue((err as ApiError).message);
     }
   },
 );
@@ -128,41 +97,29 @@ export const deleteAddress = createAsyncThunk<Client, DeleteAddressArg, { reject
 const clientsSlice = createSlice({
   name: 'clients',
   initialState,
-  reducers: {
-    clearError: (state) => {
-      state.error = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchClients.pending, (state) => {
-        state.status = 'loading';
+        state.loading = true;
         state.error = null;
       })
       .addCase(fetchClients.fulfilled, (state, action: PayloadAction<Client[]>) => {
-        state.status = 'succeeded';
+        state.loading = false;
         state.items = action.payload;
       })
       .addCase(fetchClients.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload ?? 'Error al cargar clientes';
+        state.loading = false;
+        state.error = (action.payload as string) ?? 'Error al cargar clientes';
       })
 
-      .addCase(createClient.pending, (state) => {
-        state.mutationStatus = 'loading';
-      })
       .addCase(createClient.fulfilled, (state, action: PayloadAction<Client>) => {
-        state.mutationStatus = 'succeeded';
         state.items.unshift(action.payload);
-      })
-      .addCase(createClient.rejected, (state, action) => {
-        state.mutationStatus = 'failed';
-        state.error = action.payload ?? 'Error al crear cliente';
       })
 
       .addCase(updateClient.fulfilled, (state, action: PayloadAction<Client>) => {
-        const index = state.items.findIndex((c) => c.id === action.payload.id);
-        if (index !== -1) state.items[index] = action.payload;
+        const i = state.items.findIndex((c) => c.id === action.payload.id);
+        if (i !== -1) state.items[i] = action.payload;
       })
 
       .addCase(deleteClient.fulfilled, (state, action: PayloadAction<string>) => {
@@ -170,19 +127,18 @@ const clientsSlice = createSlice({
       })
 
       .addCase(addAddress.fulfilled, (state, action: PayloadAction<Client>) => {
-        const index = state.items.findIndex((c) => c.id === action.payload.id);
-        if (index !== -1) state.items[index] = action.payload;
+        const i = state.items.findIndex((c) => c.id === action.payload.id);
+        if (i !== -1) state.items[i] = action.payload;
       })
       .addCase(updateAddress.fulfilled, (state, action: PayloadAction<Client>) => {
-        const index = state.items.findIndex((c) => c.id === action.payload.id);
-        if (index !== -1) state.items[index] = action.payload;
+        const i = state.items.findIndex((c) => c.id === action.payload.id);
+        if (i !== -1) state.items[i] = action.payload;
       })
       .addCase(deleteAddress.fulfilled, (state, action: PayloadAction<Client>) => {
-        const index = state.items.findIndex((c) => c.id === action.payload.id);
-        if (index !== -1) state.items[index] = action.payload;
+        const i = state.items.findIndex((c) => c.id === action.payload.id);
+        if (i !== -1) state.items[i] = action.payload;
       });
   },
 });
 
-export const { clearError } = clientsSlice.actions;
 export default clientsSlice.reducer;

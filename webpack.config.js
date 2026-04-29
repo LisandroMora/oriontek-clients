@@ -7,7 +7,6 @@ module.exports = (_, argv) => {
 
   return {
     entry: './src/index.tsx',
-
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: isProduction
@@ -16,14 +15,12 @@ module.exports = (_, argv) => {
       publicPath: '/',
       clean: true,
     },
-
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.jsx'],
       alias: {
         '@': path.resolve(__dirname, 'src'),
       },
     },
-
     module: {
       rules: [
         {
@@ -31,9 +28,7 @@ module.exports = (_, argv) => {
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
-            options: {
-              cacheDirectory: true,
-            },
+            options: { cacheDirectory: true },
           },
         },
         {
@@ -67,11 +62,8 @@ module.exports = (_, argv) => {
         },
       ],
     },
-
     plugins: [
-      new HtmlWebpackPlugin({
-        template: './public/index.html',
-      }),
+      new HtmlWebpackPlugin({ template: './public/index.html' }),
       ...(isProduction
         ? [
             new MiniCssExtractPlugin({
@@ -80,9 +72,7 @@ module.exports = (_, argv) => {
           ]
         : []),
     ],
-
     devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
-
     devServer: {
       port: 3000,
       hot: true,

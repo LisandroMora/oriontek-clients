@@ -3,10 +3,9 @@ import type { Address, AddressFormData, Client, ClientFormData } from '@/types';
 import { generateId } from '@/utils/helpers';
 
 const RESOURCE = '/clients';
-const nowIso = (): string => new Date().toISOString();
+const nowIso = () => new Date().toISOString();
 
 export const clientsService = {
-
   async getAll(): Promise<Client[]> {
     const { data } = await apiClient.get<Client[]>(RESOURCE);
     return data;
@@ -69,12 +68,8 @@ export const clientsService = {
     const client = await this.getById(clientId);
 
     const addresses = client.addresses.map((a) => {
-      if (a.id === addressId) {
-        return { ...a, ...addressData };
-      }
-      if (addressData.isPrimary) {
-        return { ...a, isPrimary: false };
-      }
+      if (a.id === addressId) return { ...a, ...addressData };
+      if (addressData.isPrimary) return { ...a, isPrimary: false };
       return a;
     });
 
@@ -87,7 +82,6 @@ export const clientsService = {
 
   async deleteAddress(clientId: string, addressId: string): Promise<Client> {
     const client = await this.getById(clientId);
-
     const { data } = await apiClient.patch<Client>(`${RESOURCE}/${clientId}`, {
       addresses: client.addresses.filter((a) => a.id !== addressId),
       updatedAt: nowIso(),

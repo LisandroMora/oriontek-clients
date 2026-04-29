@@ -1,11 +1,10 @@
-import axios, { type AxiosError, type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
+import axios, { type AxiosError, type AxiosInstance } from 'axios';
 
 const API_BASE_URL = '/api';
 
 export interface ApiError {
   status: number;
   message: string;
-  details?: unknown;
 }
 
 export const apiClient: AxiosInstance = axios.create({
@@ -16,13 +15,6 @@ export const apiClient: AxiosInstance = axios.create({
   },
 });
 
-apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError<{ message?: string }>) => {
@@ -31,14 +23,8 @@ apiClient.interceptors.response.use(
       message:
         error.response?.data?.message ??
         error.message ??
-        'Error inesperado al comunicarse con el servidor',
-      details: error.response?.data,
+        'Error al comunicarse con el servidor',
     };
-
-    if (apiError.status === 401) {
-      console.warn('No autorizado — sesión expirada');
-    }
-
     return Promise.reject(apiError);
   },
 );

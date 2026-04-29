@@ -2,7 +2,6 @@ import type { SvgIconComponent } from '@mui/icons-material';
 import type { ReactNode } from 'react';
 
 import styles from './EmptyState.module.scss';
-
 interface EmptyStateProps {
   icon: SvgIconComponent;
   title: string;
